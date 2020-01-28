@@ -11,18 +11,21 @@ int main(void){
     }
 
     while(1){
-        double humidvalue = read_dht11_dat();
-        delay(2000);
+        read_dht11_dat();
+        double humidvalue = humid;
+        double celciusvalue = celcius;
+        delay(10000);
+
         int lightnum = lightCheck();
-        delay(2000);
+        delay(10000);
         printf("\n");
 
         MYSQL *connector;
         char query[1024];
-        
+       
         connector = mysql_init(NULL);
 
-        if(!mysql_real_connect(connector, "192.168.3.17", "java", "java",  // ip 주소 입력, id password, 
+        if(!mysql_real_connect(connector, "192.168.3.7", "java", "1234",  // ip 주소 입력, id password, 
                             "javadb", 3306, NULL, 0))// DB 이름, 포트번호
             {
                 printf("DB connect Fail");
@@ -31,7 +34,7 @@ int main(void){
             printf("DB connect Success");
         }
 
-        sprintf(query, "insert into tbl_sensor values(%.2f, %d)",humidvalue, lightnum);
+        sprintf(query, "insert into hus_table values(%.2f, %.2f, %d, now())",humidvalue, celciusvalue, lightnum);
 
         int result = mysql_query(connector,query);
         printf("\n%d",result);
