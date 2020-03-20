@@ -3,20 +3,19 @@
 #include <stdint.h>
 
 #define MAXTIMING 85
-#define DHTPIN 7
+#define DHTPIN 4
 
 int dht11_dat[5] = {0,0,0,0,0};
+double humid;
+double celcius;
 
-
-int read_dht11_dat(){
+void read_dht11_dat(){
     
     int laststate = HIGH;
     int counter = 0;
     int j = 0, i;
     float f;
-    double humid;
-    double celcius;
-
+    
     dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
 
     pinMode(DHTPIN, OUTPUT);
@@ -64,10 +63,9 @@ int read_dht11_dat(){
             printf("Data not good, skip\n");
         }
         
-        humid = dht11_dat[0] + (double)dht11_dat[1]/10;
-        celcius = dht11_dat[2] + (double)dht11_dat[3]/10;
-
-        
-        return humid;
+        humid = (double)dht11_dat[0] + (double)dht11_dat[1]/10;
+        celcius = (double)dht11_dat[2] + (double)dht11_dat[3]/10;
+    
+       
 }
 
